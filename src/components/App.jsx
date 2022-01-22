@@ -24,6 +24,15 @@ export class App extends Component {
       number,
     };
 
+    const findContact = this.state.contacts.find(
+      contact => contact.name === name
+    );
+
+    if (findContact) {
+      alert(`${findContact.name} is already in contacts`);
+      return;
+    }
+
     this.setState(prevState => ({
       contacts: [...prevState.contacts, contact],
     }));
@@ -42,6 +51,12 @@ export class App extends Component {
 
   filterInputId = nanoid();
 
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(({ id }) => id !== contactId),
+    }));
+  };
+
   render() {
     const { value } = this.state;
     const visibleContacts = this.getVisibleContacts();
@@ -59,7 +74,10 @@ export class App extends Component {
             onChangeFilter={this.handleChangeFilter}
           />
 
-          <ContactList contacts={visibleContacts}></ContactList>
+          <ContactList
+            contacts={visibleContacts}
+            onDeleteContact={this.deleteContact}
+          ></ContactList>
         </Section>
       </>
     );

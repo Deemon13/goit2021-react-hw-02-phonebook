@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 
+import { Layout } from './Layout/Layout';
 import { Section } from './Section/Section';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
@@ -62,9 +63,7 @@ export class App extends Component {
     const visibleContacts = this.getVisibleContacts();
 
     return (
-      <>
-        <h1>phonebook</h1>
-
+      <Layout title="phonebook">
         <ContactForm onAddContact={this.addContact}></ContactForm>
 
         <Section title="Contacts">
@@ -79,7 +78,7 @@ export class App extends Component {
             onDeleteContact={this.deleteContact}
           ></ContactList>
         </Section>
-      </>
+      </Layout>
     );
   }
 }

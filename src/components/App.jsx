@@ -59,25 +59,29 @@ export class App extends Component {
   };
 
   render() {
-    const { value } = this.state;
+    const { contacts, value } = this.state;
     const visibleContacts = this.getVisibleContacts();
 
     return (
       <Layout title="phonebook">
         <ContactForm onAddContact={this.addContact}></ContactForm>
 
-        <Section title="Contacts">
-          <Filter
-            id={this.filterInputId}
-            value={value}
-            onChangeFilter={this.handleChangeFilter}
-          />
+        {contacts.length > 0 && (
+          <Section title="Contacts">
+            {contacts.length > 2 && (
+              <Filter
+                id={this.filterInputId}
+                value={value}
+                onChangeFilter={this.handleChangeFilter}
+              />
+            )}
 
-          <ContactList
-            contacts={visibleContacts}
-            onDeleteContact={this.deleteContact}
-          ></ContactList>
-        </Section>
+            <ContactList
+              contacts={visibleContacts}
+              onDeleteContact={this.deleteContact}
+            ></ContactList>
+          </Section>
+        )}
       </Layout>
     );
   }

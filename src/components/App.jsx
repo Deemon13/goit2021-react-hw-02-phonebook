@@ -3,7 +3,13 @@ import { nanoid } from 'nanoid';
 
 export class App extends Component {
   state = {
-    contacts: [],
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
     name: '',
     number: '',
   };
@@ -32,11 +38,24 @@ export class App extends Component {
     this.setState({ [name]: value });
   };
 
+  handleChangeFilter = filter => {
+    this.setState({ filter });
+  };
+
+  getVisibleContacts() {
+    const { contacts, filter } = this.state;
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }
+
   nameInputId = nanoid();
   numberInputId = nanoid();
+  filterInputId = nanoid();
 
   render() {
-    const { name, number } = this.state;
+    const { name, number, value } = this.state;
+    const visibleContacts = this.getVisibleContacts();
     return (
       <>
         <h1>phonebook</h1>
@@ -69,8 +88,15 @@ export class App extends Component {
         </form>
         <section>
           <h2>Contacts</h2>
+          <label htmlFor={this.filterInputId}>Find contacts by name</label>
+          <input
+            type="text"
+            value={value}
+            id={this.filterInputId}
+            onChange={evt => this.handleChangeFilter(evt.target.value)}
+          />
           <ul>
-            {this.state.contacts.map(({ id, name, number }) => {
+            {visibleContacts.map(({ id, name, number }) => {
               return (
                 <li key={id}>
                   {name}: {number}
